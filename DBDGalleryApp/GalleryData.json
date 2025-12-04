@@ -1,0 +1,14 @@
+﻿{
+	{"name":"A","hint":"説明","detail":"説明","tags":["A","B"],"img":""},
+	{"name":"B","hint":"説明","detail":"説明","tags":["A","B"],"img":""},
+	{"name":"C","hint":"説明","detail":"説明","tags":["A","B"],"img":""},
+	{"name":"D","hint":"説明","detail":"説明","tags":["A","B"],"img":""},
+	{"name":"E","hint":"説明","detail":"説明","tags":["A","B"],"img":""},
+	{"name":"F","hint":"説明","detail":"説明","tags":["A","B"],"img":""},
+	{"name":"G","hint":"説明","detail":"説明","tags":["A","B"],"img":""},
+	{"name":"H","hint":"説明","detail":"説明","tags":["A","B"],"img":""},
+	{"name":"I","hint":"説明","detail":"説明","tags":["A","B"],"img":""},
+	{"name":"J","hint":"説明","detail":"説明","tags":["A","B"],"img":""},
+	{"name":"K","hint":"説明","detail":"説明","tags":["A","B"],"img":""},
+
+}
