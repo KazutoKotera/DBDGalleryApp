@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="DBDGalleryApp.GalleryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid>
+        <!-- 3列構成 左：前へ / 中央：ギャラリー / 右：次へ -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80"/>
+            <!-- 左ボタンの幅 -->
+            <ColumnDefinition Width="*"/>
+            <!-- ギャラリー -->
+            <ColumnDefinition Width="80"/>
+            <!-- 右ボタンの幅 -->
+        </Grid.ColumnDefinitions>
+
+        <!-- 左ボタン -->
+        <Button Content="◀" Click="PrevPage_Click"
+                Grid.Column="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="40"/>
+
+        <!-- ギャラリー中央エリア -->
+        <Viewbox Stretch="Uniform" Grid.Column="1">
+            <Grid Width="1400" Height="800">
+                <ItemsControl x:Name="ItemGrid" Margin="10">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="3" Columns="5" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Grid>
+        </Viewbox>
+
+        <!-- 右ボタン -->
+        <Button Content="▶" Click="NextPage_Click"
+                Grid.Column="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="40"/>
+
+        <!-- 戻るボタン（左上） -->
+        <Button Content="戻る" Click="Back_Click"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="10"/>
+    </Grid>
+</UserControl>
