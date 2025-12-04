@@ -22,8 +22,11 @@ namespace DBDGalleryApp
     {
         public event Action BackRequested;
 
+        // JSONで読み込んだすべてのアイテムの保存
         private List<GalleryItem> items;  // ← string から変更
+        // 現在のページ番号
         private int currentPage = 0;
+        // 1ページに表示するアイテム数
         private int itemsPerPage = 15; // 3行×5列
 
         public GalleryView()
@@ -33,23 +36,19 @@ namespace DBDGalleryApp
             DisplayPage();
         }
 
+        // JSONファイルの読み込み
         private void LoadItems()
         {
             string path = "GalleryData.json";  // ファイル名
-
-            if (!File.Exists(path))
-            {
-                MessageBox.Show("GalleryData.json が見つかりません");
-                items = new List<GalleryItem>();
-                return;
-            }
 
             string json = File.ReadAllText(path);
             items = JsonSerializer.Deserialize<List<GalleryItem>>(json);
         }
 
+        // ページの処理と表示
         private void DisplayPage()
         {
+            // 既存のアイテムをクリア
             ItemGrid.Items.Clear();
 
             int start = currentPage * itemsPerPage;
@@ -71,6 +70,9 @@ namespace DBDGalleryApp
 
                 ItemGrid.Items.Add(btn);
             }
+
+            int totalPages = (int)Math.Ceiling((double)items.Count / itemsPerPage);
+            PageLabel.Content = $"[{currentPage + 1}/{totalPages}]";
         }
 
         private void PrevPage_Click(object sender, RoutedEventArgs e)

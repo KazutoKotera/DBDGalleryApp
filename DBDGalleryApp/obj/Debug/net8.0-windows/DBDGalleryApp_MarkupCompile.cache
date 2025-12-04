@@ -1,5 +1,5 @@
 ﻿DBDGalleryApp
-1.0.0.0
+
 
 winexe
 C#
@@ -12,9 +12,9 @@ TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR
 C:\KCG\project\GalleryApp\DBDGalleryApp\DBDGalleryApp\App.xaml
 31543338300
 
-8-245966622
-198-568745232
+6930120385
+198338916705
 GalleryView.xaml;MainWindow.xaml;SettingWindows.xaml;
 
-True
+False
 
