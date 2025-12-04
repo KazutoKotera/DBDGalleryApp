@@ -12,4 +12,10 @@
     <Folder Include="imgs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="GalleryData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -53,7 +53,7 @@ namespace DBDGalleryApp {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/DBDGalleryApp;V1.0.0.0;component/settingwindows.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/DBDGalleryApp;component/settingwindows.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\SettingWindows.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
