@@ -13,6 +13,23 @@
             <!-- 右ボタンの幅 -->
         </Grid.ColumnDefinitions>
 
+        <!-- 右上に S / K ボタンを並べる -->
+        <StackPanel Orientation="Horizontal"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Margin="10,0,10,0"
+            Grid.ColumnSpan="3">
+            <!-- ★ 追加 -->
+            <Button x:Name="BtnShowS"
+            Content="S"
+            Width="150" Height="30" Margin="0"
+            Click="BtnShowS_Click"/>
+            <Button x:Name="BtnShowK"
+            Content="K"
+            Width="150" Height="30" Margin="0"
+            Click="BtnShowK_Click"/>
+        </StackPanel>
+
         <!-- 左ボタン -->
         <Button Content="◀" Click="PrevPage_Click"
                 Grid.Column="0"
@@ -23,7 +40,7 @@
         <Viewbox Stretch="Uniform" Grid.Column="1">
             <StackPanel>
                 <Grid Width="1400" Height="800">
-                    <ItemsControl x:Name="ItemGrid" Margin="10">
+                    <ItemsControl x:Name="ItemGrid" Margin="15,150,15,10">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Rows="3" Columns="5" />
