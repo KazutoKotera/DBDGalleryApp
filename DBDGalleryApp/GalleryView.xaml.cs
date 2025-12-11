@@ -57,13 +57,14 @@ namespace DBDGalleryApp
         {
             TagPanel.Children.Clear();
 
-            var allTags = items
-                .Where(i => i.tags != null)
+            // camp が currentType のアイテムだけからタグを抽出
+            var tagsForCurrentType = items
+                .Where(i => i.camp == currentType && i.tags != null)
                 .SelectMany(i => i.tags)
                 .Distinct()
                 .OrderBy(t => t);
 
-            foreach (var tag in allTags)
+            foreach (var tag in tagsForCurrentType)
             {
                 var btn = new System.Windows.Controls.Primitives.ToggleButton
                 {
@@ -191,6 +192,10 @@ namespace DBDGalleryApp
         private void BtnShowS_Click(object sender, RoutedEventArgs e)
         {
             currentType = "S";
+            selectedTags.Clear();
+            UpdateTagSearchBoxText();
+
+            CreateTagButtons();
             currentPage = 0;
             DisplayPage();
         }
@@ -198,6 +203,10 @@ namespace DBDGalleryApp
         private void BtnShowK_Click(object sender, RoutedEventArgs e)
         {
             currentType = "K";
+            selectedTags.Clear();
+            UpdateTagSearchBoxText();
+
+            CreateTagButtons();
             currentPage = 0;
             DisplayPage();
         }
