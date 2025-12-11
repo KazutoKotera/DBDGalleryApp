@@ -3,72 +3,125 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Grid>
-        <!-- 3列構成 左：前へ / 中央：ギャラリー / 右：次へ -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80"/>
-            <!-- 左ボタンの幅 -->
-            <ColumnDefinition Width="*"/>
-            <!-- ギャラリー -->
-            <ColumnDefinition Width="80"/>
-            <!-- 右ボタンの幅 -->
+            <ColumnDefinition Width="37*"/>
+            <ColumnDefinition Width="108*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <!-- 上の操作バー（後で検索欄などを追加する場所） -->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <!-- ギャラリー＋左右ボタン -->
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <!-- 右上に S / K ボタンを並べる -->
-        <StackPanel Orientation="Horizontal"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Margin="10,0,10,0"
-            Grid.ColumnSpan="3">
-            <!-- ★ 追加 -->
+        <!-- 上の操作エリア -->
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <!-- 戻る -->
+                <ColumnDefinition Width="*"/>
+                <!-- スペース -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- S -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- K -->
+            </Grid.ColumnDefinitions>
+
+            <!-- 戻る -->
+            <Button Content="戻る" Click="Back_Click"
+                    Grid.Column="0" Margin="10,10"/>
+
+            <!-- S ボタン -->
             <Button x:Name="BtnShowS"
-            Content="S"
-            Width="150" Height="30" Margin="0"
-            Click="BtnShowS_Click"/>
+                    Content="S"
+                    Width="150" Height="30"
+                    Margin="5,5,0,5"
+                    Grid.Column="2"
+                    Click="BtnShowS_Click"/>
+
+            <!-- K ボタン -->
             <Button x:Name="BtnShowK"
-            Content="K"
-            Width="150" Height="30" Margin="0"
-            Click="BtnShowK_Click"/>
-        </StackPanel>
+                    Content="K"
+                    Width="150" Height="30"
+                    Margin="0,5,5,5"
+                    Grid.Column="3"
+                    Click="BtnShowK_Click"/>
 
-        <!-- 左ボタン -->
-        <Button Content="◀" Click="PrevPage_Click"
-                Grid.Column="0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="40"/>
+        </Grid>
 
-        <Viewbox Stretch="Uniform" Grid.Column="1">
-            <StackPanel>
-                <Grid Width="1400" Height="800">
-                    <ItemsControl x:Name="ItemGrid" Margin="15,150,15,10">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Rows="3" Columns="5" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </Grid>
+        <Grid Grid.Row="1" Grid.ColumnSpan="1">
 
-                <!-- ★ ギャラリーの下にページ表記を追加 -->
-                <Label x:Name="PageLabel"
-                       HorizontalAlignment="Center"
-                       Margin="0,10,0,0"
-                       FontSize="20"
-                       Content="[1/1]"/>
-            </StackPanel>
-        </Viewbox>
+            <Button Content="タグ"
+                    Width="80" Height="30"
+                    Margin="10"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Click="OpenTagPopup_Click"/>
 
-        <!-- 右ボタン -->
-        <Button Content="▶" Click="NextPage_Click"
-                Grid.Column="2"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="40"/>
+            <Popup x:Name="TagPopup"
+                   Placement="Bottom"
+                   StaysOpen="False"
+                   AllowsTransparency="True"
+                   HorizontalOffset="0"
+                   VerticalOffset="-10">
+                <Border Background="#222" 
+                        Padding="10"
+                        CornerRadius="8"
+                        BorderBrush="#555"
+                        BorderThickness="1">
+                    <ScrollViewer Height="200">
+                        <!-- タグ一覧 -->
+                        <WrapPanel x:Name="TagPanel" />
+                    </ScrollViewer>
+                </Border>
+            </Popup>
 
-        <!-- 戻るボタン（左上） -->
-        <Button Content="戻る" Click="Back_Click"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Margin="10"/>
+        </Grid>
+
+        <!-- ギャラリー本体 -->
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 左ボタン -->
+            <Button Content="◀" Click="PrevPage_Click"
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="40"/>
+
+            <!-- 中央ギャラリー -->
+            <Viewbox Stretch="Uniform" Grid.Column="1">
+                <StackPanel>
+                    <Grid Width="1000" Height="600">
+                        <ItemsControl x:Name="ItemGrid" Margin="15,150,15,5">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="3" Columns="5"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </Grid>
+
+                    <Label x:Name="PageLabel"
+                           HorizontalAlignment="Center"
+                           Margin="0,10,0,0"
+                           FontSize="20"
+                           Content="[1/1]"/>
+                </StackPanel>
+            </Viewbox>
+
+            <!-- 右ボタン -->
+            <Button Content="▶" Click="NextPage_Click"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="40"/>
+        </Grid>
+
     </Grid>
 </UserControl>

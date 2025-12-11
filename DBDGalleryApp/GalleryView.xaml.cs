@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-
+using System.Linq;
 using System.Text.Json;
 using System.IO;
 
@@ -32,10 +32,13 @@ namespace DBDGalleryApp
 
         private string currentType = "S";
 
+        private List<string> selectedTags = new List<string>();
+
         public GalleryView()
         {
             InitializeComponent();
             LoadItems();
+            CreateTagButtons();
             DisplayPage();
         }
 
@@ -48,18 +51,58 @@ namespace DBDGalleryApp
             items = JsonSerializer.Deserialize<List<GalleryItem>>(json);
         }
 
+
+        private void CreateTagButtons()
+        {
+            TagPanel.Children.Clear();
+
+            var allTags = items
+                .Where(i => i.tags != null)
+                .SelectMany(i => i.tags)
+                .Distinct()
+                .OrderBy(t => t);
+
+            foreach (var tag in allTags)
+            {
+                var btn = new System.Windows.Controls.Primitives.ToggleButton
+                {
+                    Content = $"#{tag}",
+                    Tag = tag,
+                    Margin = new Thickness(5),
+                    Padding = new Thickness(10)
+                };
+
+                btn.Checked += TagToggle_Changed;
+                btn.Unchecked += TagToggle_Changed;
+
+                TagPanel.Children.Add(btn);
+            }
+        }
+
         // ページの処理と表示
         private void DisplayPage()
         {
-            var filtered = items.Where(i => i.camp == currentType).ToList();
+            IEnumerable<GalleryItem> filtered = items.Where(i => i.camp == currentType);
+
+            // ②タグフィルタ（複数 AND）
+            if (selectedTags.Any())
+            {
+                filtered = filtered.Where(i =>
+                    i.tags != null &&
+                    selectedTags.All(tag => i.tags.Contains(tag))
+                );
+            }
+
+            var filteredList = filtered.ToList();
+
             // 既存のアイテムをクリア
             ItemGrid.Items.Clear();
 
             int start = currentPage * itemsPerPage;
-            int end = Math.Min(start + itemsPerPage, filtered.Count);
+            int end = Math.Min(start + itemsPerPage, filteredList.Count);
             for (int i = start; i < end; i++)
             {
-                var item = filtered[i];
+                var item = filteredList[i];
 
                 // ボタンには name を表示（画像がある場合は後で画像へ変更）
                 var btn = new Button
@@ -75,7 +118,7 @@ namespace DBDGalleryApp
             }
 
             // 総ページ数（filtered ベース）
-            int totalPages = Math.Max(1, (int)Math.Ceiling((double)filtered.Count / itemsPerPage));
+            int totalPages = Math.Max(1,(int)Math.Ceiling((double)filteredList.Count / itemsPerPage));
             PageLabel.Content = $"[{currentPage + 1}/{totalPages}]";
         }
 
@@ -98,6 +141,30 @@ namespace DBDGalleryApp
                 currentPage++;
                 DisplayPage();
             }
+        }
+
+        private void TagToggle_Changed(object sender, RoutedEventArgs e)
+        {
+            var tbtn = sender as System.Windows.Controls.Primitives.ToggleButton;
+            var tag = tbtn.Tag.ToString();
+
+            if (tbtn.IsChecked == true)
+            {
+                if (!selectedTags.Contains(tag))
+                    selectedTags.Add(tag);
+            }
+            else
+            {
+                selectedTags.Remove(tag);
+            }
+
+            currentPage = 0;
+            DisplayPage();
+        }
+
+        private void OpenTagPopup_Click(object sender, RoutedEventArgs e)
+        {
+            TagPopup.IsOpen = true;
         }
 
 
