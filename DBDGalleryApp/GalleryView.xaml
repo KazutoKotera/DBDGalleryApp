@@ -50,14 +50,32 @@
 
         </Grid>
 
-        <Grid Grid.Row="1" Grid.ColumnSpan="1">
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
 
-            <Button Content="タグ"
-                    Width="80" Height="30"
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border x:Name="TagSearchBox"
+                    Background="White"
+                    BorderBrush="Black"
+                    BorderThickness="1"
+                    CornerRadius="6"
                     Margin="10"
-                    HorizontalAlignment="Right"
+                    Padding="8"
+                    Height="40"
+                    HorizontalAlignment="Stretch"
                     VerticalAlignment="Top"
-                    Click="OpenTagPopup_Click"/>
+                    MouseLeftButtonUp="TagSearchBox_Click">
+
+                <TextBlock x:Name="SelectedTagText"
+                           Text="タグ選択"
+                           Foreground="Black"
+                           FontSize="14"
+                           VerticalAlignment="Center"
+                           TextWrapping="NoWrap"/>
+            </Border>
 
             <Popup x:Name="TagPopup"
                    Placement="Bottom"
@@ -65,12 +83,12 @@
                    AllowsTransparency="True"
                    HorizontalOffset="0"
                    VerticalOffset="-10">
-                <Border Background="#222" 
+                <Border Background="White" 
                         Padding="10"
                         CornerRadius="8"
-                        BorderBrush="#555"
+                        BorderBrush="Black"
                         BorderThickness="1">
-                    <ScrollViewer Height="200">
+                    <ScrollViewer Width="500" Height="500">
                         <!-- タグ一覧 -->
                         <WrapPanel x:Name="TagPanel" />
                     </ScrollViewer>
@@ -98,7 +116,11 @@
             <Viewbox Stretch="Uniform" Grid.Column="1">
                 <StackPanel>
                     <Grid Width="1000" Height="600">
-                        <ItemsControl x:Name="ItemGrid" Margin="15,150,15,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="37*"/>
+                            <ColumnDefinition Width="163*"/>
+                        </Grid.ColumnDefinitions>
+                        <ItemsControl x:Name="ItemGrid" Margin="15,150,15,5" Grid.ColumnSpan="2">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <UniformGrid Rows="3" Columns="5"/>

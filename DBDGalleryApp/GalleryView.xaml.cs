@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DBDGalleryApp
 {
@@ -146,7 +147,7 @@ namespace DBDGalleryApp
         private void TagToggle_Changed(object sender, RoutedEventArgs e)
         {
             var tbtn = sender as System.Windows.Controls.Primitives.ToggleButton;
-            var tag = tbtn.Tag.ToString();
+            string tag = tbtn.Tag.ToString();
 
             if (tbtn.IsChecked == true)
             {
@@ -158,11 +159,25 @@ namespace DBDGalleryApp
                 selectedTags.Remove(tag);
             }
 
+            UpdateTagSearchBoxText();
+
             currentPage = 0;
             DisplayPage();
         }
 
-        private void OpenTagPopup_Click(object sender, RoutedEventArgs e)
+        private void UpdateTagSearchBoxText()
+        {
+            if (selectedTags.Count == 0)
+            {
+                SelectedTagText.Text = "タグ選択";
+            }
+            else
+            {
+                SelectedTagText.Text = string.Join(" ", selectedTags.Select(t => $"#{t}"));
+            }
+        }
+
+        private void TagSearchBox_Click(object sender, MouseButtonEventArgs e)
         {
             TagPopup.IsOpen = true;
         }
