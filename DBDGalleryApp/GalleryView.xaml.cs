@@ -126,9 +126,16 @@ namespace DBDGalleryApp
 
         private void PrevPage_Click(object sender, RoutedEventArgs e)
         {
+            int filteredCount = items.Count(i => i.camp == currentType);
+            int maxPage = (int)Math.Ceiling(filteredCount / (double)itemsPerPage);
+
             if (currentPage > 0)
             {
                 currentPage--;
+                DisplayPage();
+            }
+            else { 
+                currentPage = maxPage - 1;
                 DisplayPage();
             }
         }
@@ -141,6 +148,10 @@ namespace DBDGalleryApp
             if (currentPage + 1 < maxPage)
             {
                 currentPage++;
+                DisplayPage();
+            }else
+            {
+                currentPage = 0;
                 DisplayPage();
             }
         }
