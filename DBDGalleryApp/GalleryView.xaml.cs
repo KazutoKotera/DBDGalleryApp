@@ -57,13 +57,14 @@ namespace DBDGalleryApp
         {
             TagPanel.Children.Clear();
 
-            var allTags = items
-                .Where(i => i.tags != null)
+            // camp が currentType のアイテムだけからタグを抽出
+            var tagsForCurrentType = items
+                .Where(i => i.camp == currentType && i.tags != null)
                 .SelectMany(i => i.tags)
                 .Distinct()
                 .OrderBy(t => t);
 
-            foreach (var tag in allTags)
+            foreach (var tag in tagsForCurrentType)
             {
                 var btn = new System.Windows.Controls.Primitives.ToggleButton
                 {
@@ -125,9 +126,16 @@ namespace DBDGalleryApp
 
         private void PrevPage_Click(object sender, RoutedEventArgs e)
         {
+            int filteredCount = items.Count(i => i.camp == currentType);
+            int maxPage = (int)Math.Ceiling(filteredCount / (double)itemsPerPage);
+
             if (currentPage > 0)
             {
                 currentPage--;
+                DisplayPage();
+            }
+            else { 
+                currentPage = maxPage - 1;
                 DisplayPage();
             }
         }
@@ -140,6 +148,10 @@ namespace DBDGalleryApp
             if (currentPage + 1 < maxPage)
             {
                 currentPage++;
+                DisplayPage();
+            }else
+            {
+                currentPage = 0;
                 DisplayPage();
             }
         }
@@ -191,6 +203,10 @@ namespace DBDGalleryApp
         private void BtnShowS_Click(object sender, RoutedEventArgs e)
         {
             currentType = "S";
+            selectedTags.Clear();
+            UpdateTagSearchBoxText();
+
+            CreateTagButtons();
             currentPage = 0;
             DisplayPage();
         }
@@ -198,6 +214,10 @@ namespace DBDGalleryApp
         private void BtnShowK_Click(object sender, RoutedEventArgs e)
         {
             currentType = "K";
+            selectedTags.Clear();
+            UpdateTagSearchBoxText();
+
+            CreateTagButtons();
             currentPage = 0;
             DisplayPage();
         }
