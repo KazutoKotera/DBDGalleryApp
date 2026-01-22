@@ -35,7 +35,7 @@
 
             <!-- S ボタン -->
             <Button x:Name="BtnShowS"
-                    Content="S"
+                    Content="サバイバー"
                     Width="150" Height="30"
                     Margin="5,5,0,5"
                     Grid.Column="2"
@@ -43,7 +43,7 @@
 
             <!-- K ボタン -->
             <Button x:Name="BtnShowK"
-                    Content="K"
+                    Content="キラー"
                     Width="150" Height="30"
                     Margin="0,5,5,5"
                     Grid.Column="3"
@@ -51,52 +51,62 @@
 
         </Grid>
 
-        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="10,0,10,0">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
+            <!-- タグ検索欄（左） -->
             <Border x:Name="TagSearchBox"
-                    Background="White"
-                    BorderBrush="Black"
-                    BorderThickness="1"
-                    CornerRadius="6"
-                    Margin="10"
-                    Padding="8"
-                    Height="40"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Top"
-                    MouseLeftButtonUp="TagSearchBox_Click">
+            Grid.Column="0"
+            Background="White"
+            BorderBrush="Black"
+            BorderThickness="1"
+            CornerRadius="6"
+            Padding="8"
+            Height="40"
+            VerticalAlignment="Center"
+            MouseLeftButtonUp="TagSearchBox_Click">
 
                 <TextBlock x:Name="SelectedTagText"
-                           Text="タグ選択"
-                           Foreground="Black"
-                           FontSize="14"
-                           VerticalAlignment="Center"
-                           TextWrapping="NoWrap"/>
+                   Text="タグ選択"
+                   Foreground="Black"
+                   FontSize="14"
+                   VerticalAlignment="Center"
+                   TextWrapping="NoWrap"/>
             </Border>
 
+            <!-- 🔍 検索欄（右） -->
+            <TextBox x:Name="SearchBox"
+             Grid.Column="1"
+             Height="40"
+             Margin="10,0,0,0"
+             VerticalAlignment="Center"
+             FontSize="14"
+             TextChanged="SearchBox_TextChanged"
+             ToolTip="名前・タグ・説明で検索"/>
+
+            <!-- タグポップアップ -->
             <Popup x:Name="TagPopup"
-                   Placement="Bottom"
-                   StaysOpen="False"
-                   AllowsTransparency="True"
-                   HorizontalOffset="0"
-                   VerticalOffset="-10">
-                <Border Background="White" 
-                        Padding="10"
-                        CornerRadius="8"
-                        BorderBrush="Black"
-                        BorderThickness="1">
-                    <ScrollViewer Width="500" Height="500">
-                        <!-- タグ一覧 -->
-                        <WrapPanel x:Name="TagPanel" />
+           PlacementTarget="{Binding ElementName=TagSearchBox}"
+           Placement="Bottom"
+           StaysOpen="False"
+           AllowsTransparency="True">
+                <Border Background="White"
+                Padding="10"
+                CornerRadius="8"
+                BorderBrush="Black"
+                BorderThickness="1">
+                    <ScrollViewer Width="500" Height="400">
+                        <WrapPanel x:Name="TagPanel"/>
                     </ScrollViewer>
                 </Border>
             </Popup>
 
         </Grid>
+
 
         <!-- ギャラリー本体 -->
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
@@ -134,6 +144,7 @@
                            HorizontalAlignment="Center"
                            Margin="0,10,0,0"
                            FontSize="20"
+                           
                            Content="[1/1]"/>
                 </StackPanel>
             </Viewbox>
@@ -151,7 +162,7 @@
            AllowsTransparency="True"
            StaysOpen="True"
            IsHitTestVisible="False">
-            <Border Background="#DD222222"
+            <Border Background="Black"
                 CornerRadius="8"
                 Padding="10">
                 <StackPanel>

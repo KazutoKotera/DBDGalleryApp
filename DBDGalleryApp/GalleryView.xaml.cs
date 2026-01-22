@@ -34,6 +34,8 @@ namespace DBDGalleryApp
 
         private string currentType = "S";
 
+        private string searchText = "";
+
         private List<string> selectedTags = new List<string>();
 
         public GalleryView()
@@ -95,6 +97,15 @@ namespace DBDGalleryApp
                 );
             }
 
+            if (!string.IsNullOrWhiteSpace(searchText))
+{
+    filtered = filtered.Where(i =>
+        (i.name?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false)
+        || (i.detail?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false)
+        || (i.tags?.Any(t => t.Contains(searchText, StringComparison.OrdinalIgnoreCase)) ?? false)
+    );
+}
+
             var filteredList = filtered.ToList();
 
             // 既存のアイテムをクリア
@@ -136,6 +147,7 @@ namespace DBDGalleryApp
                 img.MouseMove += Item_MouseMove;
 
                 ItemGrid.Items.Add(img);
+
             }
 
             // ★ ページ数表示（ここが正しい位置）
@@ -146,6 +158,15 @@ namespace DBDGalleryApp
 
             PageLabel.Content = $"[{currentPage + 1}/{totalPages}]";
         }
+
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            searchText = SearchBox.Text.Trim();
+            currentPage = 0;
+            DisplayPage();
+        }
+
 
         private void Item_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -249,7 +270,7 @@ namespace DBDGalleryApp
 
         private void BtnShowS_Click(object sender, RoutedEventArgs e)
         {
-            currentType = "S";
+            currentType = "";
             selectedTags.Clear();
             UpdateTagSearchBoxText();
 
