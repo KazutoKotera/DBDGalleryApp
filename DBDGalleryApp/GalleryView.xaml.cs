@@ -270,7 +270,7 @@ namespace DBDGalleryApp
 
         private void BtnShowS_Click(object sender, RoutedEventArgs e)
         {
-            currentType = "";
+            currentType = "S";
             selectedTags.Clear();
             UpdateTagSearchBoxText();
 
