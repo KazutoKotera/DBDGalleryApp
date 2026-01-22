@@ -6,13 +6,14 @@ using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace DBDGalleryApp
 {
     public class GalleryItem
     {
         public string name { get; set; }
-        public string hint { get; set; }
         public string detail { get; set; }
         public List<string> tags { get; set; }
         public string img { get; set; }
@@ -52,7 +53,6 @@ namespace DBDGalleryApp
             items = JsonSerializer.Deserialize<List<GalleryItem>>(json);
         }
 
-
         private void CreateTagButtons()
         {
             TagPanel.Children.Clear();
@@ -86,7 +86,7 @@ namespace DBDGalleryApp
         {
             IEnumerable<GalleryItem> filtered = items.Where(i => i.camp == currentType);
 
-            // ②タグフィルタ（複数 AND）
+            // タグフィルタ（複数 AND）
             if (selectedTags.Any())
             {
                 filtered = filtered.Where(i =>
@@ -102,27 +102,74 @@ namespace DBDGalleryApp
 
             int start = currentPage * itemsPerPage;
             int end = Math.Min(start + itemsPerPage, filteredList.Count);
+
             for (int i = start; i < end; i++)
             {
                 var item = filteredList[i];
 
-                // ボタンには name を表示（画像がある場合は後で画像へ変更）
-                var btn = new Button
+                var img = new Image
                 {
-                    Content = item.name,
-                    Margin = new Thickness(5)
+                    Width = 128,
+                    Height = 128,
+                    Stretch = Stretch.Uniform,
+                    SnapsToDevicePixels = true,
+                    UseLayoutRounding = true,
+                    Tag = item
                 };
 
-                btn.Click += (s, e) =>
-                    MessageBox.Show($"{item.name}\n\n{item.detail}");
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri($"imgs/{item.img}", UriKind.Relative);
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
+                bitmap.Freeze();
 
-                ItemGrid.Items.Add(btn);
+
+                img.Source = bitmap;
+                img.SnapsToDevicePixels = true;
+                img.UseLayoutRounding = true;
+
+
+                // マウスイベント
+                img.MouseEnter += Item_MouseEnter;
+                img.MouseLeave += Item_MouseLeave;
+                img.MouseMove += Item_MouseMove;
+
+                ItemGrid.Items.Add(img);
             }
 
-            // 総ページ数（filtered ベース）
-            int totalPages = Math.Max(1,(int)Math.Ceiling((double)filteredList.Count / itemsPerPage));
+            // ★ ページ数表示（ここが正しい位置）
+            int totalPages = Math.Max(
+                1,
+                (int)Math.Ceiling((double)filteredList.Count / itemsPerPage)
+            );
+
             PageLabel.Content = $"[{currentPage + 1}/{totalPages}]";
         }
+
+        private void Item_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var img = sender as Image;
+            var item = img.Tag as GalleryItem;
+
+            PopupTitle.Text = item.name;
+            PopupDetail.Text = item.detail;
+
+            HoverPopup.IsOpen = true;
+        }
+
+        private void Item_MouseMove(object sender, MouseEventArgs e)
+        {
+            // カーソル移動に追従させたい場合は何もしなくてOK
+            // Placement="MousePoint" が自動で処理します
+        }
+
+        private void Item_MouseLeave(object sender, MouseEventArgs e)
+        {
+            HoverPopup.IsOpen = false;
+        }
+
+
 
         private void PrevPage_Click(object sender, RoutedEventArgs e)
         {

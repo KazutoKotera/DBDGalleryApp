@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DBDGalleryApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+37c2a92622a227e3285822383054c6f446278c99")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9c60a1f8495865680c19aac8120292aae2c4239d")]
 [assembly: System.Reflection.AssemblyProductAttribute("DBDGalleryApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DBDGalleryApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

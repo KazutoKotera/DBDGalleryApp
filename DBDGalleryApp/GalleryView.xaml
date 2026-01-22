@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="DBDGalleryApp.GalleryView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="#2E2E2E">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -144,6 +145,30 @@
                     VerticalAlignment="Center"
                     FontSize="40"/>
         </Grid>
+
+        <Popup x:Name="HoverPopup"
+           Placement="MousePoint"
+           AllowsTransparency="True"
+           StaysOpen="True"
+           IsHitTestVisible="False">
+            <Border Background="#DD222222"
+                CornerRadius="8"
+                Padding="10">
+                <StackPanel>
+                    <TextBlock x:Name="PopupTitle"
+                       FontSize="14"
+                       FontWeight="Bold"
+                       Foreground="White"/>
+                    <TextBlock x:Name="PopupDetail"
+                       Margin="0,5,0,0"
+                       FontSize="12"
+                       Foreground="White"
+                       TextWrapping="Wrap"
+                       Width="250"/>
+                </StackPanel>
+            </Border>
+        </Popup>
+
 
     </Grid>
 </UserControl>
